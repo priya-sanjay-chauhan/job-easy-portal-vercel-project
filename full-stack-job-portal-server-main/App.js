@@ -7,20 +7,7 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 
 // Middlewares
 app.use(express.json());
-app.use(
-  cors({
-    //origin: "http://localhost:5173",
-    origin: "http://jobeasy-env.eba-qprcbh3e.ap-south-1.elasticbeanstalk.com",
-    credentials: true,
-    methods: ["GET", "POST", "DELETE", "PUT", "PATCH", "OPTIONS"],
-    allowedHeaders: [
-      "Content-Type",
-      "Authorization",
-      "X-Requested-With",
-      "Accept",
-    ],
-  })
-);
+app.use(cors("*")); // allowing all origins (for development purposes only)
 
 // Custom Middlewares
 const {
