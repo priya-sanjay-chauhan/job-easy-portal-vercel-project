@@ -13,7 +13,7 @@ export const getBaseUrl = () => BASE_URL;
 export const testConnection = async () => {
   try {
     // Test the root endpoint of the server
-    const response = await axios.get("http://localhost:3000/", {
+    const response = await axios.get("http://52.66.158.80", {
       withCredentials: true,
     });
     console.log("Server connection test:", response.data);
