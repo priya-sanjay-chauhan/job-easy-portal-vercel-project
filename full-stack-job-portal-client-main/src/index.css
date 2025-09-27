@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --color-primary: #f97316; /* Vibrant Orange */
+  --color-secondary: #fb923c; /* Light Orange */
+  --color-accent: #ea580c; /* Deep Orange */
+  --color-neutral: #fff7ed; /* Warm White */
+  --color-white: #fff;
+  --color-black: #1c1917; /* Warm Black */
+  --color-gray: #d6d3d1; /* Warm Gray */
+  --color-danger: #dc2626; /* Warm Red */
+  --shadow-dark: rgba(234, 88, 12, 0.3); /* Orange-tinted shadow */
+  --shadow-medium: rgba(234, 88, 12, 0.2); /* Orange-tinted shadow */
+  --shadow-light: rgba(234, 88, 12, 0.1); /* Orange-tinted shadow */
+}
