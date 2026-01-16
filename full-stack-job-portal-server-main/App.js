@@ -12,7 +12,7 @@ app.use(express.json());
 app.use(
   cors({
     origin: [
-      "https://https://job-easy-portal-vercel-project-lukhqx05c.vercel.app/",
+      "https://job-easy-portal-vercel-project.vercel.app",
     
     ],
     credentials: true,
