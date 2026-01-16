@@ -13,11 +13,7 @@ app.use(
   cors({
     origin: [
       "https://job-easy-portal-vercel-project.vercel.app",
-      "https://job-easy-portal-vercel-project.vercel.app/",
-      "http://localhost:5173",
-      "http://localhost:5174",
-      "http://localhost:8000",
-      "http://52.66.158.80",
+    
     ],
     credentials: true,
   })
