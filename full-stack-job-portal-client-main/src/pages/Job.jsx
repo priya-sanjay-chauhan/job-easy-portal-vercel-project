@@ -101,11 +101,17 @@ const Job = () => {
 };
 
 const Wrapper = styled.section`
-  padding: 2rem 0;
+  padding: 2rem 1.5rem;
   max-width: 1000px;
   margin: 0 auto;
+  margin-top: 80px; /* Account for fixed navbar height */
   margin-bottom: calc(20px + 1vw);
   width: 100%;
+
+  @media screen and (max-width: 600px) {
+    margin-top: 90px; /* Slightly more space on mobile for larger navbar */
+    padding: 1.5rem 1rem;
+  }
 
   .top-row {
     margin-bottom: calc(30px + 1vw);

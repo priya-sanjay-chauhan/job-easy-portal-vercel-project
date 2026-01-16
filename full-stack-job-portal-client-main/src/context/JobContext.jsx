@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import axios from "axios";
 import { getAllHandler } from "../utils/FetchHandlers";
 
 const jobContext = React.createContext();
@@ -11,11 +10,14 @@ const JobContext = ({ children }) => {
 
   const handleJobFetch = async (url) => {
     setJobLoading(true);
+    console.log("JobContext: Fetching jobs from URL:", url);
     try {
-      const response = await axios.get(url, { withCredentials: true });
+      const response = await getAllHandler(url);
+      console.log("JobContext: Received response:", response);
       setJobError({ status: false, message: "" });
-      setJobs(response?.data);
+      setJobs(response);
     } catch (error) {
+      console.error("JobContext: Error fetching jobs:", error);
       setJobError({ status: true, message: error?.message });
       setJobs({ status: false });
       setJobLoading(false);
@@ -24,7 +26,7 @@ const JobContext = ({ children }) => {
   };
 
   useEffect(() => {
-    handleJobFetch(`/api/v1/jobs?page=1`);
+    handleJobFetch(`/jobs?page=1`);
   }, []);
   const passing = {
     jobLoading,

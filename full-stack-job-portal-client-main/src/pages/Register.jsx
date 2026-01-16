@@ -4,8 +4,8 @@ import Logo from "../components/Logo";
 import { Link, useNavigate } from "react-router-dom";
 
 import { useForm } from "react-hook-form";
-import axios from "axios";
 import Swal from "sweetalert2";
+import { postHandler } from "../utils/FetchHandlers";
 
 const Register = () => {
   const {
@@ -37,8 +37,9 @@ const Register = () => {
       const user = { username, email, password, role };
       // posting
       try {
-        const response = await axios.post("/api/v1/Auth/register", user, {
-          withCredentials: true,
+        const response = await postHandler({
+          url: "/Auth/register",
+          body: user,
         });
 
         Swal.fire({

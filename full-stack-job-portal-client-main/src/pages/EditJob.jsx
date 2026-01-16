@@ -67,30 +67,67 @@ const EditJob = () => {
       });
     },
     onError: (error, variables, context) => {
-      console.log(error);
+      console.error("Update job error:", error);
+      console.error("Error response:", error.response);
+      console.error("Error data:", error.response?.data);
+
+      const errorMessage =
+        error.response?.data?.message ||
+        error.response?.data?.error?.[0]?.msg ||
+        error.message ||
+        "Failed to update job";
+
       Swal.fire({
         icon: "error",
-        title: "Oops...",
-        text: error?.message,
+        title: "Update Failed",
+        text: errorMessage,
       });
     },
   });
 
   const onSubmit = async (data) => {
+    console.log("=== EditJob onSubmit ===");
+    console.log("Form data:", data);
+    console.log("Skills:", skills);
+    console.log("Facilities:", facilities);
+    console.log("Deadline:", deadline);
+
     const updateJob = {
-      company: data?.company,
-      position: data?.position,
+      company: data?.company?.trim(),
+      position: data?.position?.trim(),
       jobStatus: data?.status,
       jobType: data?.type,
-      jobLocation: data?.location,
-      jobVacancy: data?.vacancy,
-      jobSalary: data?.salary,
-      jobDeadline: deadline + "",
-      jobDescription: data?.description,
-      jobSkills: skills,
-      jobFacilities: facilities,
-      jobContact: data?.contact,
+      jobLocation: data?.location?.trim(),
+      jobVacancy: parseInt(data?.vacancy) || 0,
+      jobSalary: parseInt(data?.salary) || 0,
+      jobDeadline: deadline.toISOString(),
+      jobDescription: data?.description?.trim(),
+      jobSkills: skills && skills.length > 0 ? skills : [],
+      jobFacilities: facilities && facilities.length > 0 ? facilities : [],
+      jobContact: data?.contact?.trim(),
     };
+
+    console.log("Prepared update data:", updateJob);
+
+    // Validate required arrays
+    if (!updateJob.jobSkills || updateJob.jobSkills.length === 0) {
+      Swal.fire({
+        icon: "warning",
+        title: "Missing Skills",
+        text: "Please add at least one required skill.",
+      });
+      return;
+    }
+
+    if (!updateJob.jobFacilities || updateJob.jobFacilities.length === 0) {
+      Swal.fire({
+        icon: "warning",
+        title: "Missing Facilities",
+        text: "Please add at least one job facility.",
+      });
+      return;
+    }
+
     // posting;
     updateJobMutation.mutate({
       body: updateJob,

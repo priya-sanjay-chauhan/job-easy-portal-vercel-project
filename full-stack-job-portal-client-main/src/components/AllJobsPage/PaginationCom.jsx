@@ -13,7 +13,7 @@ const PaginationCom = () => {
     //     `User requested page number ${e.selected}, which is offset ${newOffset}`
     // );
     // setItemOffset(newOffset);
-    handleJobFetch(`/api/v1/jobs?page=${e.selected + 1}&limit=5`);
+    handleJobFetch(`/jobs?page=${e.selected + 1}&limit=6`);
   };
 
   return (

@@ -7,5 +7,5 @@ export default function Brands() {
         </h2>
       </div>
     </div>
-  )
+  );
 }

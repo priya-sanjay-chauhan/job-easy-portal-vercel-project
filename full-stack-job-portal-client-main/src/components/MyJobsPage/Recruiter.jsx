@@ -79,7 +79,7 @@ const Recruiter = () => {
     // console.log(jobs);
   }
 
-  if (!jobs || !Array.isArray(jobs) || jobs.length === 0) {
+  if (!jobs || !Array.isArray(jobs.result) || jobs.result.length === 0) {
     return (
       <h2 className="mt-8 text-2xl font-semibold text-center">
         No Applications found
@@ -101,7 +101,7 @@ const Recruiter = () => {
             </tr>
           </thead>
           <tbody>
-            {jobs?.map((job, index) => {
+            {jobs?.result?.map((job, index) => {
               let i = index + 1 < 10 ? `0${index + 1}` : index + 1;
               return (
                 <tr key={job?._id}>

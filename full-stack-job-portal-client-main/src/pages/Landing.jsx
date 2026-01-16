@@ -1,13 +1,11 @@
 import React, { useEffect, useRef } from "react";
 import Wrapper from "../assets/css/wrappers/LandingPage";
 import { Link } from "react-router-dom";
-import photo from "../assets/media/LandingPage/hero.png";
+import heroImage from "../assets/media/ofc_img.jpg";
 import Navbar from "../components/shared/Navbar";
-import PopularCategory from "../components/Home Page/PopularCategory";
 import HowWorks from "../components/Home Page/HowWorks";
 import Team from "../components/Home Page/Team";
 import Brands from "../components/Home Page/Brands";
-import Testimonial from "../components/Home Page/Testimonial";
 
 const Landing = () => {
   const navbarRef = useRef(null);
@@ -24,35 +22,32 @@ const Landing = () => {
       <Navbar navbarRef={navbarRef} />
       <Wrapper ref={heroRef}>
         <div className="hero-content">
-          <div className="placeholder">
-            <img src={photo} alt="job viva photo" />
-          </div>
-          <div className="text-content">
-            <h1>
-              Get Your <span className="fancy">Dream Job </span>
-              Today!
-            </h1>
-            <p>
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Illo
-              perferendis dignissimos eligendi voluptas exercitationem, eius aut
-              mollitia quasi nisi voluptatem similique, tempore totam, odit
-              repellendus non. Dolores eos animi recusandae.
-            </p>
-            <div className="btn-grp">
+          <h1>
+            Find Your
+            <br />
+            <span className="fancy">Dream Job</span>
+          </h1>
+          <div className="hero-image">
+            <img
+              src={heroImage}
+              alt="Office"
+              loading="eager"
+              onError={(e) => {
+                e.target.onerror = null;
+                console.error("Failed to load hero image");
+              }}
+            />
+            <div className="hero-overlay">
               <Link className="btn" to="/all-jobs">
-                Apply Now
+                Get Started
               </Link>
             </div>
           </div>
         </div>
       </Wrapper>
-      <div>
-        <PopularCategory />
-        <HowWorks />
-        <Team />
-        <Testimonial />
-        <Brands />
-      </div>
+      <HowWorks />
+      <Team />
+      <Brands />
     </>
   );
 };

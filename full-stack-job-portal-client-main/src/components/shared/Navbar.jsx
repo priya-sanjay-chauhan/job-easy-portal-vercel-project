@@ -5,7 +5,7 @@ import Logo from "../Logo";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useUserContext } from "../../context/UserContext";
 import Swal from "sweetalert2";
-import axios from "axios";
+import { logoutHandler } from "../../utils/FetchHandlers";
 
 const Navbar = ({ navbarRef }) => {
   const { user, handleFetchMe } = useUserContext();
@@ -14,11 +14,7 @@ const Navbar = ({ navbarRef }) => {
 
   const handleLogout = async () => {
     try {
-      const response = await axios.post(
-        "/api/v1/auth/logout",
-        {},
-        { withCredentials: true }
-      );
+      const response = await logoutHandler();
       Swal.fire({
         icon: "success",
         title: "Logout...",
@@ -51,12 +47,12 @@ const Navbar = ({ navbarRef }) => {
               </NavLink>
               <div className="relative">
                 <button
-                  className="nav-item flex items-center gap-2 bg-[#f97316] hover:bg-[#ea580c] transition-colors text-white px-6 py-2 rounded"
+                  className="nav-item flex items-center gap-2 bg-[rgb(54,55,245)] hover:bg-[rgb(44,45,235)] transition-colors text-white px-6 py-2 rounded"
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                 >
-                  <span>{user.username}</span>
+                  <span className="text-white">{user.username}</span>
                   <svg
-                    className="w-4 h-4"
+                    className="w-4 h-4 text-white"
                     viewBox="0 0 20 20"
                     fill="currentColor"
                   >
@@ -85,7 +81,7 @@ const Navbar = ({ navbarRef }) => {
                     </NavLink>
                     <button
                       onClick={handleLogout}
-                      className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100 border-t"
+                      className="block w-full text-left px-4 py-2 text-sm text-[rgb(54,55,245)] hover:bg-[rgb(54,55,245)] hover:text-white border-t transition-colors"
                     >
                       Logout
                     </button>
@@ -95,7 +91,7 @@ const Navbar = ({ navbarRef }) => {
             </>
           ) : (
             <NavLink className="nav-item" to="/login">
-              <span className="bg-[#f97316] hover:bg-[#ea580c] transition-colors text-white px-6 py-2 rounded">
+              <span className="bg-[rgb(54,55,245)] hover:bg-[rgb(44,45,235)] transition-colors text-white px-6 py-2 rounded">
                 Login
               </span>
             </NavLink>
@@ -110,12 +106,17 @@ const Wrapper = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
-  box-shadow: 0 5px 5px var(--shadow-light);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
   padding: 1rem 0;
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
   .container {
     width: 100%;
-    max-width: 1200px;
+    max-width: 1400px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -124,11 +125,12 @@ const Wrapper = styled.div`
     font-size: 16px;
     font-weight: 500;
     text-transform: capitalize;
-    margin-left: 20px;
-    color: var(--color-black);
+    margin-left: 24px;
+    color: #1f2937;
+    transition: color 0.2s ease;
   }
   .container .nav-item.active {
-    color: var(--color-primary);
+    color: rgb(54, 55, 245);
   }
   @media screen and (max-width: 1200px) {
     padding: 1rem 2rem;

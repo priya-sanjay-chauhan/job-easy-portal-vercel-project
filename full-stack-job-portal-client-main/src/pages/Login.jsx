@@ -5,9 +5,9 @@ import Logo from "../components/Logo";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import { useForm } from "react-hook-form";
-import axios from "axios";
 import Swal from "sweetalert2";
 import { useUserContext } from "../context/UserContext";
+import { postHandler } from "../utils/FetchHandlers";
 
 const Login = () => {
   const { handleFetchMe } = useUserContext();
@@ -29,19 +29,27 @@ const Login = () => {
 
     // posting
     try {
-      const response = await axios.post("/api/v1/auth/login", data, {
-        withCredentials: true,
+      console.log("Attempting login with data:", data);
+      const response = await postHandler({
+        url: "/auth/login",
+        body: data,
       });
+      console.log("Login response:", response);
+
       Swal.fire({
         icon: "success",
         title: "Hurray...",
         text: response?.data?.message,
       });
+
+      console.log("Fetching user data...");
       await handleFetchMe();
+      console.log("User data fetched, navigating to dashboard...");
 
       reset();
       navigate("/dashboard");
     } catch (error) {
+      console.error("Login error:", error);
       Swal.fire({
         icon: "error",
         title: "Oops...",

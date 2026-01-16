@@ -112,13 +112,33 @@ const JobCard = ({ job }) => {
 const Wrapper = styled.div`
   width: 100%;
   height: 100%;
-  /* max-width: 400px; */
   margin: 0 auto;
   .card-container {
     height: 100%;
-    box-shadow: 0 4px 4px var(--shadow-medium), 0 -2px 6px var(--shadow-medium);
-    border-radius: 4px;
+    background: white;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    border-radius: 16px;
     padding: 2rem 1.5rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .card-container:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 16px 40px rgba(54, 55, 245, 0.15);
+    border-color: rgba(54, 55, 245, 0.2);
+  }
+  .card-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, rgb(54, 55, 245), rgb(99, 102, 241));
+    border-radius: 16px 16px 0 0;
   }
   .card-container .card-header {
     display: flex;
@@ -127,35 +147,34 @@ const Wrapper = styled.div`
   }
   .card-container .logo {
     margin-right: 18px;
-    width: 50px;
-    height: 50px;
-    border-radius: 3px;
-    background-color: #fb891f;
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgb(54, 55, 245), rgb(99, 102, 241));
     display: flex;
     justify-content: center;
     align-items: center;
-    /* optional */
-    color: var(--color-white);
-    font-size: 30px;
+    color: white;
+    font-size: 24px;
     font-weight: 700;
     text-transform: uppercase;
+    box-shadow: 0 4px 20px rgba(54, 55, 245, 0.3);
   }
   .right .title {
     text-transform: capitalize;
-    font-size: calc(15px + 0.3vw);
-    font-weight: 600;
-    color: var(--color-black);
-    line-height: 24px;
+    font-size: calc(18px + 0.3vw);
+    font-weight: 700;
+    color: #1f2937;
+    line-height: 1.4;
+    margin-bottom: 4px;
   }
   .right .company {
     display: inline-block;
     text-transform: capitalize;
-    font-size: calc(11px + 0.15vw);
-    font-weight: 600;
-    color: var(--color-black);
-    letter-spacing: 1px;
-    padding: 1px 2px;
-    border-radius: 4px;
+    font-size: calc(13px + 0.15vw);
+    font-weight: 500;
+    color: #6b7280;
+    letter-spacing: 0.5px;
   }
   @media screen and (max-width: 550px) {
     .right .title {
@@ -178,25 +197,35 @@ const Wrapper = styled.div`
     justify-content: flex-start;
     align-items: center;
     font-size: 14px;
+    color: #4b5563;
+    font-weight: 500;
   }
 
   .status span {
-    background-color: #fefe7d;
-    padding: 2px 15px;
-    border-radius: 6px;
+    background: rgba(54, 55, 245, 0.1);
+    color: rgb(54, 55, 245);
+    padding: 6px 16px;
+    border-radius: 20px;
     text-transform: uppercase;
-    font-size: 12.5px;
-    font-weight: 400;
+    font-size: 11px;
+    font-weight: 600;
     letter-spacing: 1px;
+    border: 1px solid rgba(54, 55, 245, 0.2);
   }
   .status span.pending {
-    background-color: #fefe7d;
+    background: rgba(245, 158, 11, 0.1);
+    color: rgb(245, 158, 11);
+    border-color: rgba(245, 158, 11, 0.2);
   }
   .status span.declined {
-    background-color: #feb69a;
+    background: rgba(239, 68, 68, 0.1);
+    color: rgb(239, 68, 68);
+    border-color: rgba(239, 68, 68, 0.2);
   }
   .status span.interview {
-    background-color: #a0ffa3;
+    background: rgba(16, 185, 129, 0.1);
+    color: rgb(16, 185, 129);
+    border-color: rgba(16, 185, 129, 0.2);
   }
   .end-row {
     margin-top: calc(18px + 0.4vw);
@@ -205,35 +234,48 @@ const Wrapper = styled.div`
     gap: 10px;
   }
   .end-row .detail-btn {
-    padding: 4px 18px;
+    padding: 10px 24px;
     text-transform: capitalize;
-    background-color: var(--color-black);
-    color: var(--color-white);
-    border-radius: 4px;
-    letter-spacing: 1px;
+    background: transparent;
+    color: rgb(54, 55, 245);
+    border: 2px solid rgb(54, 55, 245);
+    border-radius: 25px;
+    letter-spacing: 0.5px;
     font-size: 14px;
-    font-weight: 500;
-    transition: all 0.3s linear;
-    border: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
   .end-row .detail-btn:hover {
-    background-color: var(--color-accent);
+    background: rgb(54, 55, 245);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(54, 55, 245, 0.3);
   }
   .end-row .apply-btn {
-    padding: 4px 18px;
+    padding: 10px 24px;
     text-transform: capitalize;
-    background-color: var(--color-accent);
-    color: var(--color-white);
-    border-radius: 4px;
-    letter-spacing: 1px;
+    background: linear-gradient(135deg, rgb(54, 55, 245), rgb(99, 102, 241));
+    color: white;
+    border: 2px solid transparent;
+    border-radius: 25px;
+    letter-spacing: 0.5px;
     font-size: 14px;
-    font-weight: 500;
-    transition: all 0.3s linear;
-    border: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
     outline: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
   .end-row .apply-btn:hover {
-    background-color: var(--color-black);
+    background: linear-gradient(135deg, rgb(99, 102, 241), rgb(54, 55, 245));
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(54, 55, 245, 0.4);
   }
 `;
 export default JobCard;

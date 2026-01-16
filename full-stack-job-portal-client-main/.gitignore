@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+full-stack-job-portal-client-main/.env.production
+full-stack-job-portal-server-main/.env
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

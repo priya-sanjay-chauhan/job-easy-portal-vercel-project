@@ -2,10 +2,10 @@ const express = require("express");
 const AdminRouter = express.Router(); // create a router
 
 const {
-    userAuthorizationHandler,
+  userAuthorizationHandler,
 } = require("./../Middleware/UserAuthorizationMiddleware");
 const {
-    authenticateUser,
+  authenticateUser,
 } = require("./../Middleware/UserAuthenticationMiddleware");
 
 // Controllers
@@ -13,18 +13,21 @@ const AdminController = require("../Controller/AdminController");
 
 // Authentication routes
 AdminRouter.get(
-    "/info",
-    userAuthorizationHandler("admin"),
-    AdminController.getAllInfo
+  "/info",
+  authenticateUser,
+  userAuthorizationHandler("admin"),
+  AdminController.getAllInfo
 );
 AdminRouter.get(
-    "/stats",
-    userAuthorizationHandler("admin"),
-    AdminController.monthlyInfo
+  "/stats",
+  authenticateUser,
+  userAuthorizationHandler("admin"),
+  AdminController.monthlyInfo
 );
 AdminRouter.patch(
-    "/update-role",
-    userAuthorizationHandler("admin"),
-    AdminController.updateUserRole
+  "/update-role",
+  authenticateUser,
+  userAuthorizationHandler("admin"),
+  AdminController.updateUserRole
 );
 module.exports = AdminRouter;

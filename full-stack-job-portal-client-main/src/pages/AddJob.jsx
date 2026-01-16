@@ -58,10 +58,11 @@ const AddJob = () => {
         url: "/jobs",
         body: newJob,
       });
+
       Swal.fire({
         icon: "success",
-        title: "Done...",
-        text: response?.data?.message,
+        title: "Success!",
+        text: response?.data?.message || "Job created successfully",
       });
 
       reset();
@@ -70,11 +71,18 @@ const AddJob = () => {
       setFacilities([]);
       // navigate("/");
     } catch (error) {
-      console.log(error);
+      console.error("Error creating job:", error);
+
+      const errorMessage =
+        error?.response?.data?.message ||
+        error?.response?.data ||
+        error?.message ||
+        "Failed to create job. Please try again.";
+
       Swal.fire({
         icon: "error",
-        title: "Oops...",
-        text: error?.response?.data,
+        title: "Error Creating Job",
+        text: errorMessage,
       });
     }
     setIsLoading(false);

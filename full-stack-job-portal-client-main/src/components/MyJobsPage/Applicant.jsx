@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import React from "react";
 import styled from "styled-components";
 import LoadingComTwo from "../shared/LoadingComTwo";
+import { getAllHandler } from "../../utils/FetchHandlers";
 
 const Applicant = () => {
   const {
@@ -12,12 +12,7 @@ const Applicant = () => {
     error,
   } = useQuery({
     queryKey: ["my-jobs"],
-    queryFn: async () => {
-      const response = await axios.get(`/api/v1/application/applicant-jobs`, {
-        withCredentials: true,
-      });
-      return response?.data?.result;
-    },
+    queryFn: () => getAllHandler("/application/applicant-jobs"),
   });
 
   if (isPending) {

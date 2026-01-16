@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import axios from "axios";
+import { getSingleHandler } from "../utils/FetchHandlers";
 
 const userContext = React.createContext();
 
@@ -11,12 +11,11 @@ const UserContext = ({ children }) => {
   const handleFetchMe = async () => {
     setUserLoading(true);
     try {
-      const response = await axios.get(`/api/v1/auth/me`, {
-        withCredentials: true,
-      });
+      const result = await getSingleHandler("/auth/me");
       setUserError({ status: false, message: "" });
-      setUser(response?.data?.result);
+      setUser(result);
     } catch (error) {
+      console.error("Failed to fetch user:", error);
       setUserError({ status: true, message: error?.message });
       setUser({ status: false });
     }

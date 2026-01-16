@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const BASE_URL = "/api/v1";
+const BASE_URL =
+  import.meta.env.VITE_API_BASE_URL || "http://localhost:8000/api/v1";
 
 const api = axios.create({
   baseURL: BASE_URL,
@@ -13,10 +14,11 @@ export const getBaseUrl = () => BASE_URL;
 export const testConnection = async () => {
   try {
     // Test the root endpoint of the server
-    const response = await axios.get("http://52.66.158.80", {
-      withCredentials: true,
-    });
-    console.log("Server connection test:", response.data);
+    // const response = await axios.get("http://52.66.158.80", {
+    //   withCredentials: true,
+    // });
+    const res = await api.get("/health").catch(async () => await api.get("/"));
+    console.log("Server connection test:", res.data);
     return true;
   } catch (error) {
     console.error("Server connection error:", error.message);
@@ -25,9 +27,105 @@ export const testConnection = async () => {
 };
 
 export const getAllHandler = async (url) => {
-  const res = await api.get(url);
-  // If the response has a result property, return that, otherwise return the data directly
-  return res.data?.result !== undefined ? res.data.result : res.data;
+  console.log(
+    "Making request to:",
+    `${BASE_URL}${url.startsWith("/") ? url : "/" + url}`
+  );
+
+  // For protected endpoints, always use authenticated requests
+  if (
+    url.includes("admin/") ||
+    url.startsWith("admin/") ||
+    url.includes("recruiter-jobs") ||
+    url.includes("recruiter-stats") ||
+    url.includes("application/") ||
+    url.includes("Users/")
+  ) {
+    try {
+      const res = await api.get(url);
+      console.log("Protected API response status:", res.status);
+      console.log("Protected API response data:", res.data);
+
+      // For recruiter-jobs endpoint, return the full response data (includes pagination)
+      if (url.includes("recruiter-jobs") || url.includes("recruiter-stats")) {
+        console.log(
+          "Returning full response data for recruiter endpoint:",
+          res.data
+        );
+        return res.data;
+      }
+
+      // For other endpoints, return result if available, otherwise full data
+      const returnData =
+        res.data?.result !== undefined ? res.data.result : res.data;
+      console.log("Returning data:", returnData);
+      return returnData;
+    } catch (error) {
+      console.error("Protected API Error Details:");
+      console.error("- Status:", error.response?.status);
+      console.error("- Status Text:", error.response?.statusText);
+      console.error("- Data:", error.response?.data);
+      console.error("- Message:", error.message);
+      console.error("- URL:", error.config?.url);
+
+      // Create a more informative error object
+      const enhancedError = {
+        ...error,
+        response: {
+          ...error.response,
+          status: error.response?.status,
+          statusText: error.response?.statusText,
+          data: error.response?.data,
+        },
+        config: {
+          url: error.config?.url,
+          method: error.config?.method,
+        },
+      };
+
+      throw enhancedError;
+    }
+  }
+
+  try {
+    // Try first without credentials for public endpoints
+    const publicRes = await axios.get(
+      `${BASE_URL}${url.startsWith("/") ? url : "/" + url}`,
+      {
+        withCredentials: false,
+      }
+    );
+    console.log("Public API response:", publicRes.data);
+
+    // For jobs endpoint, return the full response to preserve pagination data
+    if (url.includes("/jobs") || url.startsWith("jobs")) {
+      console.log(
+        "Jobs endpoint detected, returning full response:",
+        publicRes.data
+      );
+      return publicRes.data;
+    }
+
+    return publicRes.data?.result !== undefined
+      ? publicRes.data.result
+      : publicRes.data;
+  } catch (error) {
+    console.error("API Error:", {
+      status: error.response?.status,
+      data: error.response?.data,
+      message: error.message,
+    });
+    // If the public request fails, try with credentials
+    if (error.response?.status === 403 || error.response?.status === 401) {
+      const res = await api.get(url);
+      // For jobs endpoint, return full response even with credentials
+      if (url.includes("/jobs") || url.startsWith("jobs")) {
+        return res.data;
+      }
+      return res.data?.result !== undefined ? res.data.result : res.data;
+    }
+    throw error;
+  }
 };
 
 export const getSingleHandler = async (url) => {
@@ -36,7 +134,29 @@ export const getSingleHandler = async (url) => {
 };
 
 export const postHandler = async ({ url, body }) => {
-  return await api.post(url, body);
+  try {
+    const response = await api.post(url, body);
+    return response;
+  } catch (error) {
+    console.error("Post request error:", {
+      url,
+      status: error.response?.status,
+      data: error.response?.data,
+      message: error.message,
+    });
+
+    // Enhance error object with more readable error message
+    if (error.response?.data) {
+      error.message =
+        typeof error.response.data === "string"
+          ? error.response.data
+          : error.response.data.message ||
+            error.response.data.error ||
+            error.message;
+    }
+
+    throw error;
+  }
 };
 
 export const updateHandler = async ({ url, body }) => {
@@ -53,5 +173,5 @@ export const deleteHandler = async (url) => {
 };
 
 export const logoutHandler = async () => {
-  return await api.get("/auth/logout");
+  return await api.post("/auth/logout");
 };

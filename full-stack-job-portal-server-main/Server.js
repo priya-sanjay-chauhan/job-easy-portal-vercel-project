@@ -8,7 +8,7 @@ const path = require("path");
 const DBConnectionHandler = require("./Utils/DBconnect");
 DBConnectionHandler();
 
-const port = 80;
+const port = process.env.PORT || 8000;
 
 app.get("/", (req, res) => {
   res.send("Job Hunter Server is running!");

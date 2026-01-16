@@ -4,7 +4,6 @@ import { IoIosStats } from "react-icons/io";
 import { RiMenuAddFill } from "react-icons/ri";
 import { FiUser } from "react-icons/fi";
 import { FaUserShield } from "react-icons/fa";
-import { MdManageAccounts } from "react-icons/md";
 import { FaBriefcase } from "react-icons/fa";
 import { FaUsers } from "react-icons/fa6";
 
@@ -45,7 +44,7 @@ const RecruiterLinks = [
   {
     text: "manage jobs",
     path: "manage-jobs",
-    icon: <MdManageAccounts />,
+    icon: <FaBriefcase />,
   },
   {
     text: "Applications",

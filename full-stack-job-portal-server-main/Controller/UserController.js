@@ -1,7 +1,7 @@
 const UserModel = require("../Model/UserModel");
 const createError = require("http-errors");
 const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const JWTGenerator = require("../Utils/JWTGenerator");
 
 exports.getAllUser = async (req, res, next) => {
@@ -136,7 +136,7 @@ exports.loginUser = async (req, res, next) => {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
             signed: true,
-            sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+            sameSite: "none",
             path: "/",
           });
 

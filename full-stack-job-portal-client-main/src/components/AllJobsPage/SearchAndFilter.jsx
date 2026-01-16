@@ -15,7 +15,7 @@ const SearchAndFilter = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
-    const baseUrl = "/api/v1/jobs?page=1&limit=5";
+    const baseUrl = "/jobs?page=1&limit=6";
     let url = baseUrl;
     const queryParams = {};
 
@@ -122,11 +122,15 @@ const SearchAndFilter = () => {
 };
 
 const Wrapper = styled.div`
-  background-color: #f8f4f4;
-  padding: 1.2rem 1rem;
+  background: white;
+  padding: 2rem;
   display: flex;
   align-items: center;
-  border-radius: 6px;
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  margin-bottom: 2rem;
   .form {
     width: 100%;
     display: flex;
@@ -162,51 +166,77 @@ const Wrapper = styled.div`
     align-items: center;
   }
   .text {
-    font-size: 13px;
-    font-weight: 400;
-    color: var(--color-black);
-    opacity: 0.75;
-    /* margin-right: 5px; */
-    background-color: #e4e4e4;
+    font-size: 14px;
+    font-weight: 600;
+    color: #4b5563;
+    background: rgba(54, 55, 245, 0.1);
     height: 100%;
-    padding: 2px 5px;
+    padding: 8px 12px;
+    border-radius: 8px 0 0 8px;
+    border: 1px solid rgba(54, 55, 245, 0.2);
+    border-right: none;
   }
   .type-select,
   .status-select {
     text-transform: capitalize;
-    padding: 1px 4px;
+    padding: 8px 12px;
     outline: none;
-    border: 1px solid #0000002c;
-    border-radius: 0 3px 3px 0;
-    color: #000;
-    opacity: 0.8;
-    font-size: 13px;
-    background-color: #fafafa;
+    border: 1px solid rgba(54, 55, 245, 0.2);
+    border-radius: 0 8px 8px 0;
+    border-left: none;
+    color: #1f2937;
+    font-size: 14px;
+    font-weight: 500;
+    background: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .type-select:focus,
+  .status-select:focus {
+    border-color: rgb(54, 55, 245);
+    box-shadow: 0 0 0 3px rgba(54, 55, 245, 0.1);
   }
   .search-row {
     display: flex;
     align-items: center;
   }
   .search-row .search {
-    padding: 5px 8px;
-    border: 1px solid #0000003d;
-    font-size: 12px;
-    border-radius: 3px 0 0 3px;
+    padding: 12px 16px;
+    border: 2px solid rgba(54, 55, 245, 0.2);
+    font-size: 14px;
+    border-radius: 25px 0 0 25px;
+    font-weight: 500;
+    color: #1f2937;
+    background: white;
+    min-width: 200px;
+    transition: all 0.2s ease;
   }
 
   .search-row .search:focus {
-    border: 1px solid #000000ad;
+    border-color: rgb(54, 55, 245);
+    box-shadow: 0 0 0 3px rgba(54, 55, 245, 0.1);
     outline: none;
   }
+
+  .search-row .search::placeholder {
+    color: #9ca3af;
+    font-weight: 400;
+  }
+
   .search-row .icon {
-    background-color: #e4e4e4;
-    border: 1px solid #0000003d;
+    background: linear-gradient(135deg, rgb(54, 55, 245), rgb(99, 102, 241));
+    border: 2px solid rgb(54, 55, 245);
     border-left: 0;
-    color: var(--color-black);
-    font-weight: 900;
-    padding: 5.5px 6px;
-    font-size: 17px;
-    border-radius: 0 3px 3px 0;
+    color: white;
+    padding: 12px 16px;
+    font-size: 18px;
+    border-radius: 0 25px 25px 0;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .search-row .icon:hover {
+    background: linear-gradient(135deg, rgb(99, 102, 241), rgb(54, 55, 245));
   }
 `;
 

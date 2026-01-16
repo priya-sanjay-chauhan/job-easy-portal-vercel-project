@@ -30,7 +30,9 @@ const Stats = () => {
   const [isShowBarChart, setIsShowBarChart] = useState(false);
   const { isPending, isError, data, error } = useQuery({
     queryKey: ["stats"],
-    queryFn: () => getAllHandler(`/admin/stats`),
+    queryFn: () => getAllHandler(`admin/stats`),
+    retry: 2,
+    retryDelay: 1000,
   });
 
   // Pi Chart Codes
@@ -67,15 +69,24 @@ const Stats = () => {
   }
 
   if (isError) {
-    return <h2 className="">{error.message}</h2>;
-  }
-
-  if (isError) {
     console.error("Error loading stats:", error);
     return (
-      <h2 className="text-lg md:text-3xl font-bold text-red-600 text-center mt-12">
-        Error: {error?.message || "Failed to load statistics"}
-      </h2>
+      <div className="text-center mt-12 p-6">
+        <h2 className="text-lg md:text-3xl font-bold text-red-600 mb-4">
+          Error: {error?.message || "Failed to load statistics"}
+        </h2>
+        <p className="text-gray-600 mb-4">
+          {error?.response?.status === 401 || error?.response?.status === 403
+            ? "You don't have permission to view this page. Please make sure you're logged in as an admin."
+            : "There was a problem connecting to the server. Please try again later."}
+        </p>
+        <button
+          onClick={() => window.location.reload()}
+          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+        >
+          Retry
+        </button>
+      </div>
     );
   }
 
@@ -191,7 +202,11 @@ const Stats = () => {
                   }}
                 />
                 <Legend />
-                <Bar dataKey="count" fill="#f97316" stroke="#ea580c" />
+                <Bar
+                  dataKey="count"
+                  fill="rgb(54, 55, 245)"
+                  stroke="rgb(44, 45, 235)"
+                />
               </BarChart>
             </ResponsiveContainer>
           ) : (
@@ -211,8 +226,8 @@ const Stats = () => {
                 <Area
                   type="monotone"
                   dataKey="count"
-                  fill="#f97316"
-                  stroke="#ea580c"
+                  fill="rgb(54, 55, 245)"
+                  stroke="rgb(44, 45, 235)"
                   fillOpacity={0.2}
                 />
               </AreaChart>
@@ -331,11 +346,11 @@ const Wrapper = styled.section`
     border-radius: 8px;
     cursor: pointer;
     transition: all 0.2s ease;
-    background-color: #f97316;
+    background-color: rgb(54, 55, 245);
     color: white;
 
     &:hover {
-      background-color: #ea580c;
+      background-color: rgb(44, 45, 235);
     }
 
     .icon {

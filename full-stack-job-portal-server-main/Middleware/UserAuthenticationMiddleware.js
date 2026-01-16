@@ -5,6 +5,10 @@ const UserModel = require("../Model/UserModel");
 exports.authenticateUser = async (req, res, next) => {
   try {
     const token = req.signedCookies[process.env.COOKIE_NAME];
+    console.log("=== Authentication Middleware ===");
+    console.log("Cookie name:", process.env.COOKIE_NAME);
+    console.log("All cookies:", req.cookies);
+    console.log("All signed cookies:", req.signedCookies);
     console.log("Auth token:", token ? "present" : "missing");
 
     if (!token) {

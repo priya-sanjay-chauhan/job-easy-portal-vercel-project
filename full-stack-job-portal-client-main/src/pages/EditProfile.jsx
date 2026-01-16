@@ -3,7 +3,7 @@ import { CiSquarePlus } from "react-icons/ci";
 import styled from "styled-components";
 import LoadingComTwo from "../components/shared/LoadingComTwo";
 
-import { getSingleHandler } from "../utils/FetchHandlers";
+import { getSingleHandler, updateHandler } from "../utils/FetchHandlers";
 import { useQuery, useMutation, QueryClient } from "@tanstack/react-query";
 const queryClient = new QueryClient();
 
@@ -12,7 +12,6 @@ import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
 import { useUserContext } from "../context/UserContext";
 
 const EditProfile = () => {
@@ -59,8 +58,9 @@ const EditProfile = () => {
         updateUser.gender = gender;
       }
 
-      const response = await axios.patch(`/api/v1/users`, updateUser, {
-        withCredentials: true,
+      const response = await updateHandler({
+        url: "/users",
+        body: updateUser,
       });
       reset();
       handleFetchMe();

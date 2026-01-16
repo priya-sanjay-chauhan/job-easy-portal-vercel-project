@@ -8,7 +8,7 @@ const Footer = () => {
           <div className="flex flex-wrap">
             <div className="w-full px-4 sm:w-2/3 lg:w-3/12">
               <div className="mb-10 w-full">
-                <a href="/#" className="mb-6 inline-block max-w-[160px]">
+                <a href="/#" className="mb-6 inline-block max-w-[180px]">
                   <img
                     src="/src/assets/media/logo.jpg"
                     alt="logo"
@@ -21,8 +21,9 @@ const Footer = () => {
                   />
                 </a>
                 <p className="mb-7 text-base text-body-color dark:text-dark-6">
-                  Sed ut perspiciatis undmnis is iste natus error sit amet
-                  voluptatem totam rem aperiam.
+                  JobEasy connects talented professionals with their dream
+                  careers. Discover opportunities, build your future, and
+                  transform your professional journey with us.
                 </p>
                 <p className="flex items-center text-sm font-medium text-dark dark:text-white">
                   <span className="mr-3 text-primary">
@@ -66,7 +67,7 @@ const Footer = () => {
               <NavLink link="/#" label="User Strategy" />
             </LinkGroup>
             <LinkGroup header="Company">
-              <NavLink link="/#" label="About TailGrids" />
+              <NavLink link="/#" label="About" />
               <NavLink link="/#" label="Contact & Support" />
               <NavLink link="/#" label="Success History" />
               <NavLink link="/#" label="Setting & Privacy" />
@@ -138,7 +139,7 @@ const Footer = () => {
                   </a>
                 </div>
                 <p className="text-base text-body-color dark:text-dark-6">
-                  &copy; 2025 Job Portal
+                  &copy; 2025 JobEasy
                 </p>
               </div>
             </div>
