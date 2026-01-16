@@ -12,12 +12,14 @@ app.use(express.json());
 app.use(
   cors({
     origin: [
-      "https://job-easy-portal-vercel-project.vercel.app",
+      "https://https://job-easy-portal-vercel-project-lukhqx05c.vercel.app/",
     
     ],
     credentials: true,
   })
 );
+
+app.options("*", cors());
 
 // Custom Middlewares
 const {
